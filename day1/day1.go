@@ -51,6 +51,7 @@ func (d Day1) TaskTwo() int {
 	res := 0
 
 	for _, i := range input {
+		dialStart := dialAt
 		side := i[0]
 		numStr := strings.ReplaceAll(i, "L", "")
 		numStr = strings.ReplaceAll(numStr, "R", "")
@@ -58,20 +59,39 @@ func (d Day1) TaskTwo() int {
 		if err != nil {
 			log.Fatal(err)
 		}
+		wholeRotations := num / 100
+		num -= wholeRotations * 100
 		if side == 'L' {
+			res += handleLeft(dialStart, dialAt, num)
 			dialAt -= num
 		}
 		if side == 'R' {
+			res += handleRight(dialAt, num)
 			dialAt += num
 		}
-		if dialAt < 0 || dialAt > 99 {
-			res += int(math.Abs(math.Floor(float64(dialAt) / 100.0)))
-		}
-
+		res += wholeRotations
 		dialAt = mod(dialAt, 100)
+		log.Println(dialStart, i, res, dialAt)
 
 	}
 	return res
+}
+
+func handleRight(dialAt, num int) int {
+	dial := dialAt + num
+	if dial > 99 {
+		return 1
+	}
+	return 0
+
+}
+
+func handleLeft(dialStart, dialAt, num int) int {
+	dial := dialAt - num
+	if dial <= 0 && dialStart != 0 {
+		return 1
+	}
+	return 0
 }
 
 func mod(a, b int) int {
