@@ -71,8 +71,6 @@ func (d Day1) TaskTwo() int {
 		}
 		res += wholeRotations
 		dialAt = mod(dialAt, 100)
-		log.Println(dialStart, i, res, dialAt)
-
 	}
 	return res
 }
