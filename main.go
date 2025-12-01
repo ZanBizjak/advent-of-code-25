@@ -5,7 +5,7 @@ import (
 	"log"
 	"os"
 
-	"zan.bizjak/aoc-25/day1"
+	"github.com/ZanBizjak/advent-of-code-25/day1"
 )
 
 func main() {
@@ -19,7 +19,6 @@ func main() {
 
 	if task == "1" {
 		log.Print(solver.TaskOne())
-		log.Print("YAY")
 		return
 	}
 
