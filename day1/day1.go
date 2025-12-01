@@ -2,7 +2,6 @@ package day1
 
 import (
 	"log"
-	"math"
 	"strconv"
 	"strings"
 
@@ -33,8 +32,6 @@ func (d Day1) TaskOne() int {
 		}
 		if dialAt < 0 || dialAt > 99 {
 			dialAt = mod(dialAt, 100)
-
-			res += int(math.Abs(math.Floor(float64(dialAt) / 100.0)))
 		}
 		if dialAt == 0 {
 
