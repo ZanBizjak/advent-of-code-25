@@ -39,13 +39,13 @@ func (Day2) TaskTwo() int {
 	return res
 }
 
-func findAllInvalidIds(firstId, lastId int64) (int, error) {
+func findAllInvalidIds(firstId, lastId int) (int, error) {
 	res := 0
 	for i := firstId; i <= lastId; i++ {
 		if i < 10 {
 			continue
 		}
-		id := strconv.FormatInt(i, 10)
+		id := strconv.FormatInt(int64(i), 10)
 		isRepeating, err := hasRepeatingPattern(id)
 		if err != nil {
 			return -1, fmt.Errorf("Error when finding out if %s has a repeating pattern: %w", id, err)
@@ -107,10 +107,10 @@ func makeSubIdsByLength(id string, subIdSize int) ([]int, error) {
 	return subIds, nil
 }
 
-func findAllInvalidIdsHalved(firstId, lastId int64) int {
+func findAllInvalidIdsHalved(firstId, lastId int) int {
 	res := 0
 	for i := firstId; i <= lastId; i++ {
-		id := strconv.FormatInt(i, 10)
+		id := strconv.FormatInt(int64(i), 10)
 		idlen := len(id)
 		if idlen%2 != 0 {
 			continue
@@ -125,7 +125,7 @@ func findAllInvalidIdsHalved(firstId, lastId int64) int {
 	return res
 }
 
-func getSplitIds(idRanges string) (int64, int64) {
+func getSplitIds(idRanges string) (int, int) {
 	splitIds := achelpers.StrToIntSlice(idRanges, "-")
 	return splitIds[0], splitIds[1]
 

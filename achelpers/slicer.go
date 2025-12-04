@@ -31,8 +31,8 @@ func RuneCopyGrid(s [][]rune) [][]rune {
 	return ret
 }
 
-func StrToIntSlice(s string, seperator string) []int64 {
-	var ret []int64
+func StrToIntSlice(s string, seperator string) []int {
+	var ret []int
 	for sNum := range strings.SplitSeq(s, seperator) {
 		sNum := strings.Trim(sNum, "\n ")
 		num, err := strconv.ParseInt(sNum, 10, 64)
@@ -40,7 +40,7 @@ func StrToIntSlice(s string, seperator string) []int64 {
 			log.Fatal(err)
 			log.Fatal("could not convert element of slice to int")
 		}
-		ret = append(ret, num)
+		ret = append(ret, int(num))
 	}
 
 	return ret
