@@ -69,7 +69,7 @@ func IntReadGrid(filestring string, splitter string) [][]int {
 	return grid
 }
 
-func RuneGetGrid(filestring string) [][]rune {
+func ReadGridRune(filestring string) [][]rune {
 	s := ReadRows(filestring)
 	var grid [][]rune
 	for i, str := range s {

@@ -8,6 +8,7 @@ import (
 	"github.com/ZanBizjak/advent-of-code-25/day1"
 	"github.com/ZanBizjak/advent-of-code-25/day2"
 	"github.com/ZanBizjak/advent-of-code-25/day3"
+	"github.com/ZanBizjak/advent-of-code-25/day4"
 )
 
 func main() {
@@ -40,6 +41,8 @@ func whichAdventDay(day string) (AdventDay, error) {
 		return day2.Day2{}, nil
 	case "3":
 		return day3.Day3{}, nil
+	case "4":
+		return day4.Day4{}, nil
 	default:
 		return nil, errors.New("Can't find solver for this day: " + day)
 	}
