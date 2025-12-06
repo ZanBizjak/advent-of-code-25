@@ -1,8 +1,6 @@
 package day3
 
 import (
-	"log"
-	"slices"
 	"strconv"
 	"strings"
 
@@ -19,7 +17,6 @@ func (Day3) TaskOne() int {
 		row = strings.Trim(row, "\n ")
 		joltage := findJoltage(row)
 		res += joltage
-		log.Printf("In %s found joltage of %d\n", row, joltage)
 	}
 	return res
 }
@@ -67,7 +64,6 @@ func (Day3) TaskTwo() int {
 		row = strings.Trim(row, "\n ")
 		joltage := findJoltageTwelve(row)
 		res += joltage
-		// log.Printf("In %s found joltage of %d\n", row, joltage)
 	}
 	return res
 }
@@ -93,7 +89,6 @@ func findMax(bank []int) (int, int) {
 func findJoltageTwelve(row string) int {
 	bank := achelpers.StrToIntSlice(row, "")
 
-	// 8181 81911112111
 	foundJolts := make([]int, 0)
 	for len(foundJolts) < 12 {
 		leftBank := bank[:len(bank)-11+len(foundJolts)]
@@ -109,10 +104,6 @@ func findJoltageTwelve(row string) int {
 
 	}
 
-	// sort.Slice(foundJolts, func(i, j int) bool {
-	// 	return foundJolts[j] > foundJolts[i]
-	//
-	// })
 	joltage := ""
 	for i := range len(foundJolts) {
 		joltage += strconv.Itoa(foundJolts[i])
@@ -123,28 +114,4 @@ func findJoltageTwelve(row string) int {
 	}
 
 	return intJoltage
-}
-
-func findBiggestFromIgnoringIndicies(bank []int, ignoreIndicies []int) int {
-
-	currMaxIndex := -1
-	for i := 0; i < len(bank); i++ {
-		if slices.Contains(ignoreIndicies, i) {
-			continue
-		}
-		if currMaxIndex == -1 && !slices.Contains(ignoreIndicies, i) {
-			currMaxIndex = i
-			continue
-		}
-		if currMaxIndex == -1 {
-			continue
-		}
-
-		if bank[i] >= bank[currMaxIndex] {
-			currMaxIndex = i
-		}
-	}
-
-	return currMaxIndex
-
 }
