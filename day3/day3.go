@@ -3,7 +3,6 @@ package day3
 import (
 	"log"
 	"slices"
-	"sort"
 	"strconv"
 	"strings"
 
@@ -73,26 +72,50 @@ func (Day3) TaskTwo() int {
 	return res
 }
 
-func findJoltageTwelve(row string) int {
-	bank := achelpers.StrToIntSlice(row, "")
-	foundJolts := make([]int, 0, 12)
-	leftMostJolt := -1
-	for len(foundJolts) < 12 {
-		biggestIndex := findBiggestFromIgnoringIndicies(bank, foundJolts, leftMostJolt)
-		if leftMostJolt == -1 || leftMostJolt > biggestIndex {
-			leftMostJolt = biggestIndex
+func findMax(bank []int) (int, int) {
+	maxIndex := -1
+
+	for i := range bank {
+		if maxIndex == -1 {
+			maxIndex = i
+			continue
 		}
 
-		foundJolts = append(foundJolts, biggestIndex)
+		if bank[i] > bank[maxIndex] {
+			maxIndex = i
+		}
 	}
 
-	sort.Slice(foundJolts, func(i, j int) bool {
-		return foundJolts[j] > foundJolts[i]
+	return maxIndex, bank[maxIndex]
 
-	})
+}
+
+func findJoltageTwelve(row string) int {
+	bank := achelpers.StrToIntSlice(row, "")
+
+	// 8181 81911112111
+	foundJolts := make([]int, 0)
+	for len(foundJolts) < 12 {
+		leftBank := bank[:len(bank)-11+len(foundJolts)]
+		leftMostIndex, leftMostValue := findMax(leftBank)
+		foundJolts = append(foundJolts, leftMostValue)
+		bank = bank[leftMostIndex+1:]
+		if len(bank)+len(foundJolts) == 12 {
+			for len(bank) != 0 {
+				foundJolts = append(foundJolts, bank[0])
+				bank = bank[1:]
+			}
+		}
+
+	}
+
+	// sort.Slice(foundJolts, func(i, j int) bool {
+	// 	return foundJolts[j] > foundJolts[i]
+	//
+	// })
 	joltage := ""
 	for i := range len(foundJolts) {
-		joltage += strconv.Itoa(bank[foundJolts[i]])
+		joltage += strconv.Itoa(foundJolts[i])
 	}
 	intJoltage, err := strconv.Atoi(joltage)
 	if err != nil {
@@ -102,33 +125,26 @@ func findJoltageTwelve(row string) int {
 	return intJoltage
 }
 
-func findBiggestFromIgnoringIndicies(bank []int, ignoreIndicies []int, from int) int {
+func findBiggestFromIgnoringIndicies(bank []int, ignoreIndicies []int) int {
 
-	currIndex := -1
-	startPoint := 0
-	if len(bank)-from-len(ignoreIndicies)-1 > 0 {
-		startPoint = from + 1
-	}
-	// 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14
-	//
-	// 2 3 4 2 3 4 2 3 4 2  3  4  2  7  8
-	// 	 4   3 4   3 4    3  4     7  8
-
-	// len(bank) {15} - from + 1 {3} = 13
-	// len(bank) {15} - from + 1 {3} - len(ignoreIndices) {9} = 4
-	for i := startPoint; i < len(bank); i++ {
+	currMaxIndex := -1
+	for i := 0; i < len(bank); i++ {
 		if slices.Contains(ignoreIndicies, i) {
 			continue
 		}
-		if currIndex == -1 {
-			currIndex = i
+		if currMaxIndex == -1 && !slices.Contains(ignoreIndicies, i) {
+			currMaxIndex = i
 			continue
 		}
-		if bank[i] >= bank[currIndex] {
-			currIndex = i
+		if currMaxIndex == -1 {
+			continue
+		}
+
+		if bank[i] >= bank[currMaxIndex] {
+			currMaxIndex = i
 		}
 	}
 
-	return currIndex
+	return currMaxIndex
 
 }
